@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
+    <title>Registration</title>
+</head>
+<body style="background-color: #9A616D;">
+
+<section class="container py-5 h-100">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <header class="card-header">
+                    <h4 class="card-title mt-2">Sign up</h4>
+                </header>
+
+                <article class="card-body">
+                    <form th:action="@{ /registration }" method="post" th:object="${customer}">
+
+                        <span class="text-danger" th:text="${message}" style="padding-bottom: 15px;"></span>
+
+                        <div class="form-row">
+                            <div class="col form-group">
+                                <label>First name </label>
+                                <input type="text" class="form-control" name="firstName" th:field="*{firstName}">
+                                <div class="text-danger" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></div>
+                            </div>
+                            <div class="col form-group">
+                                <label>Last name</label>
+                                <input type="text" class="form-control" name="lastName" th:field="*{lastName}">
+                                <div class="text-danger" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="gender" th:value="${T(com.my.bank.dto.enums.UserGender).MALE}">
+                                <span class="form-check-label"> Male </span>
+                            </label>
+                            <label class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="gender" th:value="${T(com.my.bank.dto.enums.UserGender).FEMALE}">
+                                <span class="form-check-label"> Female</span>
+                            </label>
+                            <div class="text-danger" th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}"></div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label>Country</label>
+                                <select id="country" class="form-control" name="country" onchange="if (this.selectedIndex) setPhoneNumber();">
+                                    <option value="">Choose...</option>
+                                    <option th:each="country : ${T(com.my.bank.dto.enums.Country).values()}"
+                                            th:value="${country}" th:text="${country.getCountry}"></option>
+                                </select>
+                                <div class="text-danger" th:if="${#fields.hasErrors('country')}" th:errors="*{country}"></div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>Phone</label>
+                                <input type="tel" name="phoneNumber" id="phoneNumber" class="form-control" th:field="*{phoneNumber}">
+                                <div class="text-danger" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Create password</label>
+                            <input class="form-control" type="password" name="password" th:field="*{password}">
+                            <div class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+                        </div>
+
+                        <input type="hidden" name="dateBecameCustomer" id="dateBecameCustomer">
+                        <div class="form-group">
+                            <input type="submit" class="btn btn-dark btn-lg btn-block" value="Register" onclick="setDate()"/>
+                        </div>
+                    </form>
+                </article>
+                <div class="border-top card-body text-center">Have an account? <a href="login" style="color: #393f81;">Log In</a></div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<script>
+
+    const phoneCodes = {
+        "RUSSIA": "+7",
+        "USA": "+1",
+        "GERMANY": "+49",
+        "BELARUS": "+375",
+        "FRANCE": "+33",
+    }
+
+    function setPhoneNumber() {
+        let e = document.getElementById("country");
+        let country = e.value;
+        document.getElementById("phoneNumber").value = phoneCodes[country];
+    }
+
+</script>
+
+</body>
+</html>
