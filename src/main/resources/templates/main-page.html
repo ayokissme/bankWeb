@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Main</title>
@@ -9,8 +12,19 @@
 <form th:action="@{/logout}" method="post">
     <input type="submit" class="dropdown-item" value="Выйти"/>
 </form>
+
 <h1>Hello</h1>
 <a href="registration">registration</a>
 <a href="login">login</a>
+<br>
+<div sec:authorize="hasRole('USER')">Text visible to user.</div>
+<div sec:authorize="hasRole('ADMIN')">Text visible to admin.</div>
+<div sec:authorize="isAuthenticated()">
+    Text visible only to authenticated users.
+</div>
+Authenticated username:
+<div sec:authentication="name"></div>
+<!--Authenticated user roles:-->
+<!--<div sec:authentication="principal.authorities"></div>-->
 </body>
 </html>

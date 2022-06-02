@@ -4,9 +4,6 @@ import com.my.bank.dto.CustomerDto;
 import com.my.bank.exceptions.UserAlreadyExistException;
 import com.my.bank.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AnonymousAuthenticationProvider;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,17 +22,17 @@ public class AuthorisationController {
     @GetMapping("login")
     public String login() {
         if (userService.isLoggedIn()) {
-            return "profile/profile";
+            return "redirect:";
         }
-        return "redirect:";
+        return "authorisation/login";
     }
 
     @GetMapping("registration")
     public String registration(@ModelAttribute("customer") CustomerDto customer, Model model) {
         if (userService.isLoggedIn()) {
-            return "profile/profile";
+            return "redirect:";
         }
-        return "redirect:";
+        return "authorisation/registration";
     }
 
     @PostMapping("registration")

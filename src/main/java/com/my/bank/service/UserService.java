@@ -6,7 +6,6 @@ import com.my.bank.exceptions.UserAlreadyExistException;
 import com.my.bank.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AnonymousAuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 
+import static com.my.bank.dto.enums.UserRole.ADMIN;
 import static com.my.bank.dto.enums.UserRole.USER;
 
 @Service
@@ -30,7 +30,6 @@ public class UserService implements IUserService, UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String phone) throws UsernameNotFoundException {
-        System.out.println(phone);
         return userRepository.findByPhoneNumber(phone)
                 .orElseThrow(() ->
                         new UsernameNotFoundException("Пользователь с такой почтой не найден"));
@@ -46,7 +45,7 @@ public class UserService implements IUserService, UserDetailsService {
 
     public boolean isLoggedIn() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return authentication == null || authentication instanceof AnonymousAuthenticationProvider;
+        return authentication.getAuthorities().contains(ADMIN) || authentication.getAuthorities().contains(USER);
     }
 
     public boolean isCustomerCreated(CustomerDto customer) {
