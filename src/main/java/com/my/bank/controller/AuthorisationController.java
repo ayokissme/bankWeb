@@ -21,18 +21,12 @@ public class AuthorisationController {
 
     @GetMapping("login")
     public String login() {
-        if (userService.isLoggedIn()) {
-            return "redirect:";
-        }
-        return "authorisation/login";
+        return userService.isLoggedIn() ? "redirect:": "authorisation/login";
     }
 
     @GetMapping("registration")
     public String registration(@ModelAttribute("customer") CustomerDto customer, Model model) {
-        if (userService.isLoggedIn()) {
-            return "redirect:";
-        }
-        return "authorisation/registration";
+        return userService.isLoggedIn() ? "redirect:": "authorisation/registration";
     }
 
     @PostMapping("registration")

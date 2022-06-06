@@ -32,7 +32,7 @@ public class UserService implements IUserService, UserDetailsService {
     public UserDetails loadUserByUsername(String phone) throws UsernameNotFoundException {
         return userRepository.findByPhoneNumber(phone)
                 .orElseThrow(() ->
-                        new UsernameNotFoundException("Пользователь с такой почтой не найден"));
+                        new UsernameNotFoundException("User with such phone number was not found"));
     }
 
     @Override
