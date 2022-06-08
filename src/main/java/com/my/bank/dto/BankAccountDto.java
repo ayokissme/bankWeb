@@ -1,16 +1,23 @@
 package com.my.bank.dto;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "account")
+@Table(name = "bank_account")
 @Getter
 @Setter
-public class AccountDto {
+@NoArgsConstructor
+public class BankAccountDto {
+
+    public BankAccountDto(long cardNumber, int securityCode) {
+        this.cardNumber = cardNumber;
+        this.securityCode = securityCode;
+    }
 
     @Id
     @GeneratedValue
@@ -23,7 +30,7 @@ public class AccountDto {
     private int securityCode;
 
     @Column
-    private boolean accountAccess;
+    private boolean isEnabled;
 
     @Column
     private Date openingDate;
@@ -34,5 +41,4 @@ public class AccountDto {
     @ManyToOne
     @JoinColumn(name = "customer_id", insertable = false, updatable = false)
     private CustomerDto customerDto;
-
 }

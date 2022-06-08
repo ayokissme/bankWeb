@@ -73,7 +73,7 @@ public class CustomerDto implements UserDetails {
 
     @OneToMany
     @JoinColumn(name = "customer_id")
-    private Set<AccountDto> accounts;
+    private Set<BankAccountDto> accounts;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -108,5 +108,9 @@ public class CustomerDto implements UserDetails {
     @Override
     public boolean isEnabled() {
         return enabled;
+    }
+
+    public String getFullName() {
+        return "%s %s".formatted(lastName, firstName);
     }
 }

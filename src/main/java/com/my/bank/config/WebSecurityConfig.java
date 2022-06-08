@@ -37,8 +37,8 @@ public class WebSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                    .antMatchers("/", "/registration").permitAll()
-                    .antMatchers("/admin").hasAuthority(UserRole.ADMIN.name())
+                    .antMatchers("/", "/registration", "/api/public/**").permitAll()
+                    .antMatchers("/admin", "/api/private/**", "/admin/**").hasAuthority(UserRole.ADMIN.name())
                     .anyRequest().authenticated()
                 .and()
                     .formLogin()
