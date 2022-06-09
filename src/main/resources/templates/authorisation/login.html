@@ -8,6 +8,7 @@
     <title>Login</title>
 </head>
 <body>
+
 <section class="vh-100" style="background-color: #9A616D;">
     <div class="container py-5 h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
@@ -21,7 +22,11 @@
                         <div class="col-md-6 col-lg-7 d-flex align-items-center">
                             <div class="card-body p-4 p-lg-5 text-black">
 
-                                <form th:action="@{/login}" method="post">
+                                <form th:action="@{/login}" method="post" id="loginForm">
+
+                                    <div th:if="${param.error}" style="color: red">
+                                        Invalid phone number or password.
+                                    </div>
 
                                     <div class="d-flex align-items-center mb-3 pb-1">
                                         <i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i>
@@ -38,10 +43,6 @@
                                     <div class="form-outline mb-4">
                                         <input type="password" id="password" name="password" class="form-control form-control-lg"/>
                                         <label class="form-label" for="password">Password</label>
-                                    </div>
-
-                                    <div th:if="${param.error}" style="color: red">
-                                        Invalid phone number or password.
                                     </div>
 
                                     <div class="pt-1 mb-4">
@@ -64,5 +65,12 @@
         </div>
     </div>
 </section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.7/jquery.inputmask.min.js"></script>
+<script>
+    // $('#username').inputmask('+9 (999)-999-9999',{placeholder:'+_ (___)-___-____'})
+</script>
+
 </body>
 </html>

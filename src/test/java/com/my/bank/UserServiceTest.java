@@ -21,6 +21,10 @@ import java.util.Collections;
 import java.util.Optional;
 
 import static com.my.bank.dto.enums.UserRole.USER;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.verify;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -43,10 +47,10 @@ public class UserServiceTest {
 
         boolean customerCreated = userService.isCustomerCreated(customer);
 
-        Assert.assertTrue(customerCreated);
-        Assert.assertTrue(CoreMatchers.is(customer.getRoles()).matches(Collections.singleton(USER)));
+        assertTrue(customerCreated);
+        assertTrue(CoreMatchers.is(customer.getRoles()).matches(Collections.singleton(USER)));
 
-        Mockito.verify(userRepository, Mockito.times(1)).save(customer);
+        verify(userRepository, Mockito.times(1)).save(customer);
     }
 
     @Test
@@ -55,13 +59,13 @@ public class UserServiceTest {
         customer.setPhoneNumber("+7777777777");
         customer.setPassword(passwordConfig.bCryptPasswordEncoder().encode("1234"));
 
-        Mockito.doReturn(Optional.of(new CustomerDto()))
+        doReturn(Optional.of(CustomerDto.class))
                 .when(userRepository)
                 .findByPhoneNumber("+7777777777");
 
         boolean customerCreated = userService.isCustomerCreated(customer);
 
-        Assert.assertFalse(customerCreated);
+        assertFalse(customerCreated);
     }
 
 }

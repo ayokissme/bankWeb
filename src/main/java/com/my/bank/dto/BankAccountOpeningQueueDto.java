@@ -25,7 +25,8 @@ public class BankAccountOpeningQueueDto {
     @JoinColumn(name = "account_id")
     private BankAccountDto bankAccount;
 
-    public BankAccountOpeningQueueDto(CustomerDto customer) {
+    public BankAccountOpeningQueueDto(CustomerDto customer, BankAccountDto bankAccount) {
         this.customer = customer;
+        this.bankAccount = bankAccount;
     }
 }

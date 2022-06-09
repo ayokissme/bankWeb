@@ -9,14 +9,15 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.List;
 
 @Service
-public class AdminService {
+public class AdminAccountService {
 
     @Autowired
     private AccQueueRepository queueRepository;
 
     public ModelAndView getAccountResponses() {
-//        List<BankAccountOpeningQueueDto> allResponses = queueRepository.findAll();
+        List<BankAccountOpeningQueueDto> allResponses = queueRepository.findAll();
         ModelAndView mav = new ModelAndView();
+        mav.addObject("responses", allResponses);
         mav.setViewName("account/admin-accounts");
         return mav;
     }

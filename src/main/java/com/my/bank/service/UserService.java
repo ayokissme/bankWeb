@@ -2,7 +2,7 @@ package com.my.bank.service;
 
 import com.my.bank.config.PasswordConfig;
 import com.my.bank.dto.CustomerDto;
-import com.my.bank.exceptions.UserAlreadyExistException;
+import com.my.bank.exceptions.UserAlreadyExistsException;
 import com.my.bank.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,9 +36,9 @@ public class UserService implements IUserService, UserDetailsService {
     }
 
     @Override
-    public String registerNewCustomerAccount(CustomerDto customer) throws UserAlreadyExistException {
+    public String registerNewCustomerAccount(CustomerDto customer) throws UserAlreadyExistsException {
         if (isCustomerCreated(customer)) {
-            throw new UserAlreadyExistException("User with such phone already exists");
+            throw new UserAlreadyExistsException("User with such phone already exists");
         }
         return "redirect:login";
     }

@@ -1,7 +1,7 @@
 package com.my.bank.controller;
 
 import com.my.bank.dto.CustomerDto;
-import com.my.bank.exceptions.UserAlreadyExistException;
+import com.my.bank.exceptions.UserAlreadyExistsException;
 import com.my.bank.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -39,7 +39,7 @@ public class AuthorisationController {
 
         try {
             return userService.registerNewCustomerAccount(customer);
-        } catch (UserAlreadyExistException e) {
+        } catch (UserAlreadyExistsException e) {
             model.addAttribute("message", "An account for that phone number already exists.");
             return "authorisation/registration";
         }
