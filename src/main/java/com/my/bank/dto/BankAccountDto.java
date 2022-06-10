@@ -6,13 +6,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
 import static com.my.bank.dto.enums.AccountStatus.UNDER_CONSIDERATION;
 import static javax.persistence.EnumType.STRING;
-import static javax.persistence.TemporalType.DATE;
 
 @Entity
 @Table(name = "bank_account")
@@ -32,12 +30,15 @@ public class BankAccountDto {
     private int securityCode;
 
     @Column
+    private int balance = 0;
+
+    @Column
     @Enumerated(STRING)
     private AccountStatus status;
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
-    private CustomerDto customerDto;
+    private CustomerDto customer;
 
     public void createCard(List<Long> cardNumbers, CustomerDto customer) {
         long generatedCardNumber;
@@ -48,7 +49,7 @@ public class BankAccountDto {
 
         this.cardNumber = generatedCardNumber;
         this.securityCode = random.nextInt((999 - 100) + 1) + 100;
-        this.customerDto = customer;
+        this.customer = customer;
         this.status = UNDER_CONSIDERATION;
     }
 

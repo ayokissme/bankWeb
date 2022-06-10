@@ -9,19 +9,17 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
-import static com.my.bank.dto.enums.AccountStatus.ACCEPTED;
-
 @Service
-public class ProfileService {
+public class MainService {
 
     @Autowired
     private AccountRepository accountRepository;
 
-    public ModelAndView getProfile(CustomerDto customer) {
+    public ModelAndView getMainPageMaV(CustomerDto customer) {
         ModelAndView mav = new ModelAndView();
-        List<BankAccountDto> accounts = accountRepository.findAllByCustomerAndStatus(customer, ACCEPTED);
+        List<BankAccountDto> accounts = accountRepository.findAllByCustomer(customer);
         mav.addObject("accounts", accounts);
-        mav.setViewName("profile/profile");
+        mav.setViewName("main-page");
         return mav;
     }
 }

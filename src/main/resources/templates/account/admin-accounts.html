@@ -28,7 +28,10 @@
 <header class="p-3 bg-dark text-white" th:insert="fragments/header::header"></header>
 
 <div class="container">
-    <div class="row">
+    <div th:if="${#lists.size(responses) == 0}">
+        <h1>No requests</h1>
+    </div>
+    <div th:if="${#lists.size(responses) > 0}" class="row">
         <div th:each="response : ${ responses }" class="col-sm-6 w-25" style="margin-top: 30px;" th:id="${response.queueId}">
             <div class="card">
                 <div class="card-body">
@@ -62,6 +65,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.7/jquery.inputmask.min.js"></script>
 <script type="text/javascript" th:src="@{/js/admin-accounts.js}"></script>
+<script type="text/javascript" th:src="@{/js/cardInfo.js}"></script>
 
 </body>
 </html>
