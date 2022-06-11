@@ -72,7 +72,7 @@
 
                         <input type="hidden" name="dateBecameCustomer" id="dateBecameCustomer">
                         <div class="form-group">
-                            <input type="submit" class="btn btn-dark btn-lg btn-block" value="Register" onclick="setDate()"/>
+                            <input type="submit" class="btn btn-dark btn-lg btn-block" value="Register"/>
                         </div>
                     </form>
                 </article>
@@ -85,7 +85,21 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.7/jquery.inputmask.min.js"></script>
-<script type="text/javascript" th:src="@{/js/registration.js}"></script>
+<script>
+    const phoneCodes = {
+        "RUSSIA": "+7",
+        "USA": "+1",
+        "GERMANY": "+49",
+        "BELARUS": "+375",
+        "FRANCE": "+33",
+    }
+
+    function setPhoneNumber() {
+        let e = document.getElementById("country");
+        let country = e.value;
+        document.getElementById("phoneNumber").value = phoneCodes[country];
+    }
+</script>
 
 </body>
 </html>

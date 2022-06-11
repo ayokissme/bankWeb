@@ -10,14 +10,29 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping("account")
+@RequestMapping("/account")
 public class BankAccountController {
 
     @Autowired
     private BankAccountService accountService;
 
     @GetMapping
+    public ModelAndView getAccounts(@AuthenticationPrincipal CustomerDto customer) {
+        return accountService.getAccountsMaV(customer);
+    }
+
+    @GetMapping("/open")
     public ModelAndView accountOpening(@AuthenticationPrincipal CustomerDto customer) {
-        return accountService.getPageModel(customer);
+        return accountService.getOpeningPageModel(customer);
+    }
+
+    @GetMapping("/transfer/phone")
+    public ModelAndView getTransferByPhone(@AuthenticationPrincipal CustomerDto customer) {
+        return accountService.getTransferMaV(customer);
+    }
+
+    @GetMapping("/transfer/card-to-card")
+    public ModelAndView getTransferByCard(@AuthenticationPrincipal CustomerDto customer) {
+        return accountService.getTransferMaV(customer);
     }
 }

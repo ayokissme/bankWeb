@@ -47,7 +47,7 @@ public class UserServiceTest {
 
         boolean customerCreated = userService.isCustomerCreated(customer);
 
-        assertTrue(customerCreated);
+        assertFalse(customerCreated);
         assertTrue(CoreMatchers.is(customer.getRoles()).matches(Collections.singleton(USER)));
 
         verify(userRepository, Mockito.times(1)).save(customer);
@@ -65,7 +65,7 @@ public class UserServiceTest {
 
         boolean customerCreated = userService.isCustomerCreated(customer);
 
-        assertFalse(customerCreated);
+        assertTrue(customerCreated);
     }
 
 }

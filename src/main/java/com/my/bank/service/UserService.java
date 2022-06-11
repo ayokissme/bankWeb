@@ -12,7 +12,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 
+import javax.validation.Valid;
 import java.util.Collections;
 
 import static com.my.bank.dto.enums.UserRole.ADMIN;
@@ -50,14 +53,14 @@ public class UserService implements IUserService, UserDetailsService {
 
     public boolean isCustomerCreated(CustomerDto customer) {
         if (phoneExists(customer.getPhoneNumber())) {
-            return false;
+            return true;
         }
 
         String password = passwordConfig.bCryptPasswordEncoder().encode(customer.getPassword());
         customer.setPassword(password);
         customer.setRoles(Collections.singleton(USER));
         userRepository.save(customer);
-        return true;
+        return false;
     }
 
     private boolean phoneExists(String phone) {

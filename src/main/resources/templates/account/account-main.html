@@ -18,10 +18,12 @@
 <div class="container">
     <div th:if="${#lists.size(accounts) == 0}">
         <h1>You don't have any open bank accounts</h1>
-        <a href="/account" class="btn btn-primary">Open account</a>
+        <a href="/account/open" class="btn btn-primary">Open account</a>
     </div>
     <div th:if="${#lists.size(accounts) > 0}">
         <h1>Your bank accounts</h1>
+        <a href="account/transfer/phone" class="btn btn-info">Transfer by phone number</a>
+        <a href="account/transfer/card-to-card" class="btn btn-warning">Transfer from card to card</a>
         <div class="row">
             <div th:each="account : ${ accounts }" class="col-sm-6 w-25" style="margin-top: 30px;" th:id="${account.accountId}">
                 <div class="card">

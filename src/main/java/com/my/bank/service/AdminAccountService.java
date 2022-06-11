@@ -18,7 +18,7 @@ public class AdminAccountService {
         List<BankAccountOpeningQueueDto> allResponses = queueRepository.findAll();
         ModelAndView mav = new ModelAndView();
         mav.addObject("responses", allResponses);
-        mav.setViewName("account/admin-accounts");
+        mav.setViewName("account/account-admin");
         return mav;
     }
 }
