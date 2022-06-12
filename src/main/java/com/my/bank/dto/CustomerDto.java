@@ -71,10 +71,6 @@ public class CustomerDto implements UserDetails {
     @Column
     private boolean enabled = true;
 
-    @OneToMany
-    @JoinColumn(name = "customer_id")
-    private Set<BankAccountDto> accounts;
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return getRoles();

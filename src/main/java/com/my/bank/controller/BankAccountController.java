@@ -1,6 +1,8 @@
 package com.my.bank.controller;
 
+import com.my.bank.dto.BankAccountDto;
 import com.my.bank.dto.CustomerDto;
+import com.my.bank.repository.AccountRepository;
 import com.my.bank.service.BankAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -28,11 +30,11 @@ public class BankAccountController {
 
     @GetMapping("/transfer/phone")
     public ModelAndView getTransferByPhone(@AuthenticationPrincipal CustomerDto customer) {
-        return accountService.getTransferMaV(customer);
+        return accountService.transferPageByPhone(customer);
     }
 
     @GetMapping("/transfer/card-to-card")
     public ModelAndView getTransferByCard(@AuthenticationPrincipal CustomerDto customer) {
-        return accountService.getTransferMaV(customer);
+        return accountService.transferPageByCard(customer);
     }
 }

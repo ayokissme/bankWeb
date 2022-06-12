@@ -17,7 +17,7 @@
 
 <header class="p-3 bg-dark text-white" th:insert="fragments/header::header"></header>
 
-<div class="container">
+<div class="container" style="display: none" id="mainContainer">
     <div class="row">
         <div class="col-sm-6" style="margin-top: 30px;">
             <div class="card" style="background-color: #F5F5F5">
@@ -29,7 +29,6 @@
                         <b>From</b>
                         <div class="input-group mb-3">
                             <select class="form-select" id="transferMethod" name="transferMethod">
-                                <option value="account">Bank account</option>
                             </select>
                         </div>
 
@@ -43,8 +42,8 @@
                             </div>
                             <input type="text" class="form-control focusedInput valid-input"
                                    placeholder="Transfer amount"
-                                   aria-label="Recipient's username" id="amount">
-                            <span class="invalid-feedback" id="validAmount">Type the amount to transfer.</span>
+                                   aria-label="Recipient's username" id="amountInput">
+                            <span class="invalid-feedback" id="validAmount">Error</span>
                         </div>
                         <button class="btn btn-outline-secondary" type="button" id="submitBtn">Submit</button>
                     </form>
@@ -57,79 +56,8 @@
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.7/jquery.inputmask.min.js"></script>
-<script type="text/javascript" th:src="@{/js/cardInfo.js}"></script>
-<script type="text/javascript" th:src="@{/js/transfer.js}"></script>
-<script>
-    const urlPathDict = {
-        'phone': '/by/phone/+',
-        'account': '/by/account/',
-    }
-    // const balance = [[${account.balance}]];
-    // const senderAccount = [[${account.cardNumber}]];
-    // const scs = [[${account.securityCode}]];
-    const csrfToken = $("meta[name='_csrf']").attr("content");
-
-    $('.valid-input').keypress(function (e) {
-        var charCode = (e.which) ? e.which : event.keyCode
-        if (String.fromCharCode(charCode).match(/[^0-9]/g)) {
-            return false;
-        }
-    });
-
-    $('#amount').on('input', function () {
-        let validAmountMsg = document.getElementById("validAmount");
-        let submitBtn = document.querySelector("#submitBtn");
-        if ($(this).val() > balance || $(this).val() === "") {
-            validAmountMsg.style.display = "block";
-            $(this)[0].style.borderColor = "#dc3545";
-            submitBtn.disabled = true;
-        } else {
-            validAmountMsg.style.display = "none";
-            $(this)[0].style.borderColor = "#198754";
-            submitBtn.disabled = false;
-        }
-    });
-
-    $('#submitBtn').on('click', function () {
-        let transferMethod = document.getElementById('transferMethod').value;
-        let transferInput = document.getElementById('recipientCardNumber').value;
-        if (isAllCorrect(transferInput, transferMethod)) {
-            alert("The data is specified incorrectly");
-            return false;
-        }
-        let amount = document.getElementById("amount").value;
-        let urlTransfer = `/api/public/account/transfer/from/${senderAccount}${urlPathDict[transferMethod] + transferInput}/${amount}`;
-        console.log(urlTransfer);
-        $.ajax({
-            type: 'PATCH',
-            url: urlTransfer,
-            headers: {'X-CSRF-TOKEN': csrfToken},
-            statusCode: {
-                200: function (response) {
-                    const tagSuccess = '<div class="alert alert-success" role="alert">' + response + '</div>';
-                    $("form#sendRequest").replaceWith(tagSuccess);
-                },
-                208: function (response) {
-                    let tagDanger = '<div class="alert alert-danger" role="alert">' + response + '</div>'
-                    $(tagDanger).insertBefore("#submitBtn");
-                },
-            },
-        });
-        return false;
-    });
-
-    function isAllCorrect(transferInput, transferMethod) {
-        return (transferMethod === 'account' && transferInput.length !== 16)
-            || (transferMethod === 'phone' && transferInput.length !== 11)
-            || document.getElementById('amount').value > balance
-    }
-
-
-
-
-
-</script>
+<script type="text/javascript"></script>
+<script type="text/javascript" th:src="@{/js/transfer-by-card.js}"></script>
 
 </body>
 </html>

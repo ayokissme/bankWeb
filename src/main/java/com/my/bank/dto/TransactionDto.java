@@ -1,6 +1,7 @@
 package com.my.bank.dto;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -9,6 +10,7 @@ import javax.persistence.*;
 @Table(name = "transaction")
 @Getter
 @Setter
+@NoArgsConstructor
 public class TransactionDto {
 
     @Id
@@ -16,7 +18,7 @@ public class TransactionDto {
     private Long transactionId;
 
     @Column
-    private Double transferAmount = 0.0;
+    private Double transferAmount;
 
     @Column
     private String message;
@@ -29,4 +31,10 @@ public class TransactionDto {
     @JoinColumn(name = "sender_id")
     private BankAccountDto senderAccount;
 
+    public TransactionDto(Double transferAmount, String message, BankAccountDto recipientAccount, BankAccountDto senderAccount) {
+        this.transferAmount = transferAmount;
+        this.message = message;
+        this.recipientAccount = recipientAccount;
+        this.senderAccount = senderAccount;
+    }
 }

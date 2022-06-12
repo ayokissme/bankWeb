@@ -28,11 +28,9 @@
             <div th:each="account : ${ accounts }" class="col-sm-6 w-25" style="margin-top: 30px;" th:id="${account.accountId}">
                 <div class="card">
                     <div class="card-body">
-                        <p class="card-text"><b>Name:</b> <span th:text="${account.customer.getFullName()}">Test Test</span></p>
                         <p class="card-text"><b>Telephone:</b> <span class="card-telephone" th:text="${account.customer.phoneNumber}">12345678910</span></p>
-                        <p class="card-text"><b>Country:</b> <span th:text="${account.customer.country.getCountry}">Russia</span></p>
-                        <p class="card-text"><b>Gender:</b> <span th:text="${account.customer.gender.getGender}">Male</span></p>
                         <p class="card-text"><b>Card number:</b> <span class="card-number" th:text="${account.cardNumber}">1235123512351235</span></p>
+                        <p class="card-text"><b>Balance:</b> <span class="card-number" th:text="${account.balance}">123</span>$</p>
                         <div class="block">
                             <form class="block-btn" th:object="${account}">
                                 <select hidden name="accountId">

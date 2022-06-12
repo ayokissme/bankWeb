@@ -19,5 +19,4 @@ public class MainController {
     public ModelAndView mainPage(@AuthenticationPrincipal CustomerDto customerDto, Model model) {
         return mainService.getMainPageMaV(customerDto);
     }
-
 }

@@ -51,6 +51,10 @@ public class BankAccountRestService {
         return new ResponseEntity<>("Bank account opening rejected", HttpStatus.OK);
     }
 
+    public List<BankAccountDto> getBankAccounts(CustomerDto customer) {
+        return bankAccountRepository.findAllByCustomerAndStatus(customer, ACCEPTED);
+    }
+
     private void changeStatusAndRemoveFromQueue(BankAccountOpeningQueueDto accInQueue, AccountStatus status) {
         queueRepository.delete(accInQueue);
         BankAccountDto bankAccount = accInQueue.getBankAccount();

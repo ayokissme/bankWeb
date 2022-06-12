@@ -21,6 +21,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static com.my.bank.dto.enums.UserRole.ADMIN;
+import static com.my.bank.dto.enums.UserRole.USER;
+
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -37,8 +40,9 @@ public class WebSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                    .antMatchers("/", "/registration", "/api/public/**").permitAll()
-                    .antMatchers("/admin", "/api/private/**", "/admin/**").hasAuthority(UserRole.ADMIN.name())
+                    .antMatchers("/", "/registration").permitAll()
+                    .antMatchers("/admin", "/api/private/**", "/admin/**").hasAuthority(ADMIN.name())
+                    .antMatchers("/api/public/**").hasAnyAuthority(ADMIN.name(), USER.name())
                     .anyRequest().authenticated()
                 .and()
                     .formLogin()

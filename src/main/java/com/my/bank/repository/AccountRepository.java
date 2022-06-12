@@ -11,5 +11,5 @@ import java.util.Optional;
 public interface AccountRepository extends JpaRepository<BankAccountDto, Long> {
     List<BankAccountDto> findAllByCustomer(CustomerDto customer);
     List<BankAccountDto> findAllByCustomerAndStatus(CustomerDto customer, AccountStatus status);
-    Optional<BankAccountDto> findByCardNumber(Long cardNumber);
+    Optional<BankAccountDto> findByCardNumberAndStatus(Long cardNumber, AccountStatus status);
 }

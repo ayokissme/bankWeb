@@ -1,19 +1,23 @@
 package com.my.bank.service;
 
+import com.my.bank.controller.ajaxResponseBody.CardToCardResponseBody;
 import com.my.bank.dto.BankAccountDto;
 import com.my.bank.dto.CustomerDto;
+import com.my.bank.dto.TransactionDto;
+import com.my.bank.dto.enums.AccountStatus;
 import com.my.bank.repository.AccountRepository;
+import com.my.bank.repository.TransactionRepository;
 import com.my.bank.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
-import static org.springframework.http.HttpStatus.NO_CONTENT;
-import static org.springframework.http.HttpStatus.OK;
+import static com.my.bank.dto.enums.AccountStatus.ACCEPTED;
+import static org.springframework.http.HttpStatus.*;
 
 @Service
 public class BankAccountTransferRestService {
@@ -24,22 +28,46 @@ public class BankAccountTransferRestService {
     @Autowired
     private UserRepository userRepository;
 
-    public ResponseEntity<?> transferByPhone(String recipientPhoneNumber, CustomerDto sender, BankAccountDto bankAccountDto, Double amount) {
-        Optional<CustomerDto> optional = userRepository.findByPhoneNumber(recipientPhoneNumber);
-        if (optional.isEmpty()) return new ResponseEntity<>("The person was not found", NO_CONTENT);
-        CustomerDto recipient = optional.get();
-        List<BankAccountDto> recipientAccounts = accountRepository.findAllByCustomer(recipient);
-        if (recipientAccounts.size() == 0) return new ResponseEntity<>("The person does not have a bank account", NO_CONTENT);
-        if (recipientAccounts.size() == 1) return new ResponseEntity<>("The person does not have a bank account", OK);
+    @Autowired
+    private TransactionRepository transactionRepository;
+
+    public ResponseEntity<?> transferByPhone(CustomerDto sender) {
         return new ResponseEntity<>("", OK);
     }
 
-    public ResponseEntity<?> transferByAccountNumber(Long recipientAccountNumber, CustomerDto sender, BankAccountDto bankAccountDto, Double amount) {
-        return new ResponseEntity<>("", OK);
-    }
+    public ResponseEntity<?> transferByAccountNumber(CustomerDto sender, CardToCardResponseBody responseBody) {
+        Optional<BankAccountDto> optSenderAccount = accountRepository.findByCardNumberAndStatus(responseBody.getSenderAccount(), ACCEPTED);
+        Optional<BankAccountDto> optRecipientAccount = accountRepository.findByCardNumberAndStatus(responseBody.getRecipientAccount(), ACCEPTED);
+        if (Objects.equals(responseBody.getRecipientAccount(), responseBody.getSenderAccount())) {
+            return new ResponseEntity<>("Error", BAD_REQUEST);
+        }
+        if (optSenderAccount.isEmpty()) {
+            return new ResponseEntity<>("Error", BAD_REQUEST);
+        }
+        if (optRecipientAccount.isEmpty()) {
+            return new ResponseEntity<>("The recipient's account is specified incorrectly", NOT_FOUND);
+        }
+        BankAccountDto senderAccount = optSenderAccount.get();
+        if (!Objects.equals(senderAccount.getCustomer().getCustomerId(), sender.getCustomerId())) {
+            return new ResponseEntity<>("Access error", FORBIDDEN);
+        }
+        Double transferAmount = responseBody.getTransferAmount();
+        Double senderBalance = senderAccount.getBalance();
+        if (transferAmount > senderBalance) {
+            return new ResponseEntity<>("Insufficient funds", PRECONDITION_FAILED);
+        }
+        senderAccount.setBalance(senderBalance - transferAmount);
+        accountRepository.save(senderAccount);
 
-//    public boolean doesBankAccountBelongsToSender(CustomerDto sender, BankAccountDto bankAccount) {
-//
-//    }
+        BankAccountDto recipientAccount = optRecipientAccount.get();
+        Double recipientBalance = recipientAccount.getBalance();
+        recipientAccount.setBalance(recipientBalance + transferAmount);
+        accountRepository.save(recipientAccount);
+
+        TransactionDto transaction = new TransactionDto(transferAmount, responseBody.getMessage(), recipientAccount, senderAccount);
+        transactionRepository.save(transaction);
+
+        return new ResponseEntity<>(OK);
+    }
 }
 

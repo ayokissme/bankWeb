@@ -40,11 +40,15 @@ public class BankAccountService {
 
     public ModelAndView transferPageByPhone(CustomerDto customer) {
         ModelAndView mav = new ModelAndView();
+        mav.addObject("customer", customer);
+        mav.setViewName("account/account-transfer-by-phone");
         return mav;
     }
 
     public ModelAndView transferPageByCard(CustomerDto customer) {
         ModelAndView mav = new ModelAndView();
+        mav.addObject("customer", customer);
+        mav.setViewName("account/account-transfer-by-card");
         return mav;
     }
 }

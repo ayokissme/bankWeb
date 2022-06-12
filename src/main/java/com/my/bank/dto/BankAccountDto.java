@@ -30,7 +30,7 @@ public class BankAccountDto {
     private int securityCode;
 
     @Column
-    private int balance = 0;
+    private Double balance;
 
     @Column
     @Enumerated(STRING)
