@@ -1,14 +1,14 @@
-package com.my.bank.controller.responseBody;
+package com.my.bank.dto.responseBody;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class PhoneResponseBody {
+public class TransferResponseBody {
     private Double transferAmount;
     private String message;
-    private String recipientPhoneNumber;
+    private Long recipientAccount;
     private Long senderAccount;
     private int securityCode;
 }

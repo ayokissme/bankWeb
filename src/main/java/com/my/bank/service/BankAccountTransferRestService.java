@@ -1,6 +1,6 @@
 package com.my.bank.service;
 
-import com.my.bank.controller.responseBody.CardToCardResponseBody;
+import com.my.bank.dto.responseBody.TransferResponseBody;
 import com.my.bank.dto.BankAccountDto;
 import com.my.bank.dto.CustomerDto;
 import com.my.bank.dto.TransactionDto;
@@ -29,21 +29,17 @@ public class BankAccountTransferRestService {
     @Autowired
     private TransactionRepository transactionRepository;
 
-    public ResponseEntity<?> transferByPhone(CustomerDto sender) {
-        return new ResponseEntity<>("", OK);
-    }
+    public ResponseEntity<?> transfer(CustomerDto sender, TransferResponseBody responseBody) {
+        Optional<BankAccountDto> optRecipientAccount = accountRepository.findByCardNumberAndStatus(responseBody.getRecipientAccount(), ACCEPTED);
+        if (optRecipientAccount.isEmpty()) {
+            return new ResponseEntity<>("The recipient's account is specified incorrectly", NOT_FOUND);
+        }
 
-    public ResponseEntity<?> transferCardToCard(CustomerDto sender, CardToCardResponseBody responseBody) {
         Optional<BankAccountDto> optSenderAccount = accountRepository.findByCardNumberAndStatus(responseBody.getSenderAccount(), ACCEPTED);
         if (Objects.equals(
                 responseBody.getRecipientAccount(), responseBody.getSenderAccount())
                 || optSenderAccount.isEmpty()) {
             return new ResponseEntity<>("Error", BAD_REQUEST);
-        }
-
-        Optional<BankAccountDto> optRecipientAccount = accountRepository.findByCardNumberAndStatus(responseBody.getRecipientAccount(), ACCEPTED);
-        if (optRecipientAccount.isEmpty()) {
-            return new ResponseEntity<>("The recipient's account is specified incorrectly", NOT_FOUND);
         }
 
         BankAccountDto senderAccount = optSenderAccount.get();

@@ -7,10 +7,10 @@ function getSelectedCardValues(cards, select) {
     }
 }
 
-function removeSpinner() {
-    const container = document.getElementById("mainContainer");
+function changeBlock(removeId, showId) {
+    const container = document.getElementById(showId);
     container.style.display = "block";
-    const spinner = document.getElementById("spinner");
+    const spinner = document.getElementById(removeId);
     spinner.style.display = "none";
 }
 
@@ -18,7 +18,11 @@ function addOptions(cards, select) {
     for (let card of cards) {
         let opt = document.createElement('option');
         opt.value = card['cardNumber'];
-        opt.innerHTML = `${card['cardNumber']}, <b>Balance:</b> <span>${card['balance']}</span>$`;
+        let innerHtml = `${card['cardNumber']}`;
+        if (select.id === "transferMethod") {
+            innerHtml += `, <b>Balance:</b> <span>${card['balance']}</span>$`
+        }
+        opt.innerHTML = innerHtml;
         select.appendChild(opt);
     }
 }
@@ -28,17 +32,17 @@ function displayDangerCard(dangerCard, response) {
     dangerCard.innerText = response.responseText;
 }
 
-function checkAmountInput(ajaxThis, cards) {
+function checkAmountInput(ajaxThis, cards, select) {
     let validAmountMsg = document.getElementById("validAmount");
     let submitBtn = document.querySelector("#submitBtn");
-    let option = getSelectedCardValues(cards);
+    let option = getSelectedCardValues(cards, select);
     if (ajaxThis.val() > option['balance'] || ajaxThis.val() === "") {
         validAmountMsg.style.display = "block";
-        $(this)[0].style.borderColor = "#dc3545";
+        ajaxThis[0].style.borderColor = "#dc3545";
         submitBtn.disabled = true;
     } else {
         validAmountMsg.style.display = "none";
-        $(this)[0].style.borderColor = "#198754";
+        ajaxThis[0].style.borderColor = "#198754";
         submitBtn.disabled = false;
     }
 }
@@ -71,6 +75,7 @@ function sendAjaxRequest(data, url) {
         headers: {'X-CSRF-TOKEN': csrfToken},
         statusCode: {
             200: function (response) {
+                console.log(response)
                 let successCard = document.getElementById('successCard');
                 let row = document.getElementById('row');
                 successCard.style.display = "block";

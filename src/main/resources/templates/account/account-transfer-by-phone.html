@@ -18,10 +18,37 @@
 
 <header class="p-3 bg-dark text-white" th:insert="fragments/header::header"></header>
 
-<div class="loader" id="spinner">Loading...</div>
+<div class="loader" id="spinner" style="display: none">Loading...</div>
 
-<!--<div class="container" style="display: none" id="mainContainer">-->
-<div class="container" style="display: block" id="mainContainer">
+<div class="container" id="phoneContainer">
+    <div class="phone-block">
+        <div class="row">
+            <div class="col-sm-6" style="margin-top: 30px;">
+                <div class="card" style="background-color: #F5F5F5">
+                    <div class="card-body needs-validation">
+                        <h3>Enter the recipient's phone number</h3>
+                        <div class="alert alert-danger" id="dangerCardPhone" style="display: none;">
+                            Indicates a dangerous or potentially negative action
+                        </div>
+                        <div class="input-group mb-3">
+                            <select class="form-select" id="phoneCode" style="min-width: 80px;">
+                                <option value="+7">+7</option>
+                                <option value="+1">+1</option>
+                                <option value="+49">+49</option>
+                                <option value="+33">+33</option>
+                            </select>
+                            <input type="text" class="form-control focusedInput valid-input w-75"
+                                   placeholder="Phone number" id="phoneInput" maxlength="10">
+                            <button class="btn btn-outline-secondary" type="button" id="nextBtn">Next</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container" style="display: none" id="mainContainer">
     <div class="row" id="row">
         <div class="col-sm-6" style="margin-top: 30px;">
             <div class="card" style="background-color: #F5F5F5">
@@ -40,14 +67,8 @@
 
                         <b>To</b>
                         <div class="input-group mb-3">
-                            <select class="form-select" aria-label="Default select example" id="phoneCode">
-                                <option value="+7">+7</option>
-                                <option value="+1">+1</option>
-                                <option value="+49">+49</option>
-                                <option value="+33">+33</option>
+                            <select class="form-select w-50" id="recipientCard" name="recipientCard">
                             </select>
-                            <input type="text" class="form-control focusedInput valid-input w-50"
-                                   placeholder="Phone number" id="recipientPhoneNumber" maxlength="10">
                             <input type="text" class="form-control valid-input w-25" id="securityCode"
                                    placeholder="securityCode" maxlength="3">
                         </div>

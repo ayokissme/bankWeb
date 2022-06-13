@@ -1,4 +1,4 @@
-package com.my.bank.controller;
+package com.my.bank.restController;
 
 import com.my.bank.dto.BankAccountDto;
 import com.my.bank.dto.BankAccountOpeningQueueDto;
@@ -22,6 +22,11 @@ public class BankAccountRestController {
     @GetMapping(value = "/public/account/get", produces = MediaType.APPLICATION_JSON_VALUE)
     private List<BankAccountDto> getBankAccounts(@AuthenticationPrincipal CustomerDto customer) {
         return bankAccountRestService.getBankAccounts(customer);
+    }
+
+    @GetMapping(value = "/public/account/get/phone/{phoneNumber}", produces = MediaType.APPLICATION_JSON_VALUE)
+    private ResponseEntity<?> getAccountsByPhoneNumber(@PathVariable("phoneNumber") String phoneNumber) {
+        return bankAccountRestService.getAccountsByPhoneNumber(phoneNumber);
     }
 
     @PostMapping("/public/account/create")

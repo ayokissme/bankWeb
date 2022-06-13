@@ -6,7 +6,7 @@ url = "/api/public/account/get"
 fetch(url)
     .then(res => res.json())
     .then(cards => {
-        removeSpinner();
+        changeBlock("spinner", "mainContainer");
         addOptions(cards, select);
 
         $('.valid-input').keypress(function (e) {
@@ -17,7 +17,7 @@ fetch(url)
         });
 
         $('#amountInput').on('input', function () {
-            checkAmountInput($(this), cards);
+            checkAmountInput($(this), cards, checkAmountInput);
         });
 
         $('#submitBtn').on('click', function () {
