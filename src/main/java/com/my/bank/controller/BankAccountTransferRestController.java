@@ -1,6 +1,7 @@
 package com.my.bank.controller;
 
-import com.my.bank.controller.ajaxResponseBody.CardToCardResponseBody;
+import com.my.bank.controller.responseBody.CardToCardResponseBody;
+import com.my.bank.controller.responseBody.PhoneResponseBody;
 import com.my.bank.dto.CustomerDto;
 import com.my.bank.service.BankAccountTransferRestService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,14 +17,14 @@ public class BankAccountTransferRestController {
     private BankAccountTransferRestService restService;
 
     @PatchMapping("/phone")
-    public ResponseEntity<?> transferMoneyByPhone(
-            @AuthenticationPrincipal CustomerDto sender) {
+    public ResponseEntity<?> transferMoneyByPhone(@RequestBody PhoneResponseBody responseBody,
+                                                  @AuthenticationPrincipal CustomerDto sender) {
         return restService.transferByPhone(sender);
     }
 
     @PatchMapping("/card-to-card")
     public ResponseEntity<?> transferMoneyCardToCard(@RequestBody CardToCardResponseBody responseBody,
                                                      @AuthenticationPrincipal CustomerDto sender) {
-        return restService.transferByAccountNumber(sender, responseBody);
+        return restService.transferCardToCard(sender, responseBody);
     }
 }

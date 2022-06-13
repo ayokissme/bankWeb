@@ -1,13 +1,14 @@
-package com.my.bank.controller.ajaxResponseBody;
+package com.my.bank.controller.responseBody;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class CardToCardResponseBody {
+public class PhoneResponseBody {
     private Double transferAmount;
     private String message;
-    private Long recipientAccount;
+    private String recipientPhoneNumber;
     private Long senderAccount;
+    private int securityCode;
 }

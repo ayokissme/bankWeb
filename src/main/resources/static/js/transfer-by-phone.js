@@ -21,22 +21,24 @@ fetch(url)
         });
 
         $('#submitBtn').on('click', function () {
-            let recipientCard = document.getElementById('recipientCardNumber').value;
+            let recipientPhoneNumber = document.getElementById('recipientPhoneNumber').value;
             let amount = document.getElementById("amountInput").value;
             let securityCode = document.getElementById("securityCode").value;
             const senderAcc = getSelectedCardValues(cards, select);
-            if (hasErrorsCard(amount, senderAcc, recipientCard, securityCode)) {
+            let phoneCode = document.getElementById('phoneCode').value;
+            if (hasErrorsPhone(amount, senderAcc, recipientPhoneNumber, securityCode)) {
                 dangerCard.style.display = "block";
                 dangerCard.innerText = "Data entry error";
                 return false;
             }
             let data = {}
+            let phone = phoneCode + recipientPhoneNumber;
             data['transferAmount'] = parseFloat(amount);
             data['message'] = document.getElementById("message").value;
-            data['recipientAccount'] = Number(recipientCard);
+            data['recipientPhoneNumber'] = phone;
             data['senderAccount'] = Number(senderAcc['cardNumber']);
             data['securityCode'] = Number(securityCode);
-            sendAjaxRequest(data, "/api/public/account/transfer/card-to-card");
+            sendAjaxRequest(data, "/api/public/account/transfer/phone");
             return false;
         });
 

@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
-import java.util.Optional;
 
 import static com.my.bank.dto.enums.AccountStatus.ACCEPTED;
 
@@ -35,20 +34,6 @@ public class BankAccountService {
         List<BankAccountDto> accounts = accountRepository.findAllByCustomerAndStatus(customer, ACCEPTED);
         mav.addObject("accounts", accounts);
         mav.setViewName("account/account-main");
-        return mav;
-    }
-
-    public ModelAndView transferPageByPhone(CustomerDto customer) {
-        ModelAndView mav = new ModelAndView();
-        mav.addObject("customer", customer);
-        mav.setViewName("account/account-transfer-by-phone");
-        return mav;
-    }
-
-    public ModelAndView transferPageByCard(CustomerDto customer) {
-        ModelAndView mav = new ModelAndView();
-        mav.addObject("customer", customer);
-        mav.setViewName("account/account-transfer-by-card");
         return mav;
     }
 }
