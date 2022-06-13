@@ -27,12 +27,12 @@ public class BankAccountController {
     }
 
     @GetMapping("/transfer/phone")
-    public String getTransferByPhone(@AuthenticationPrincipal CustomerDto customer) {
+    public String getTransferByPhone() {
         return "account/account-transfer-by-phone";
     }
 
     @GetMapping("/transfer/card-to-card")
-    public String getTransferByCard(@AuthenticationPrincipal CustomerDto customer) {
+    public String getTransferByCard() {
         return "account/account-transfer-by-card";
     }
 }
