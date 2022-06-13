@@ -31,15 +31,15 @@
                         <p class="card-text"><b>Card number:</b> <span class="card-number" th:text="${account.cardNumber}">1235123512351235</span></p>
                         <p class="card-text"><b>Balance:</b> <span th:text="${account.balance}">123</span>$</p>
                         <p class="card-text"><b>Security code:</b> <span th:text="${account.securityCode}">123</span></p>
-                        <div class="block">
+                        <div class="block mb-3">
                             <form class="block-btn" th:object="${account}">
                                 <select hidden name="accountId">
                                     <option th:value="*{accountId}"></option>
                                 </select>
-                                <input class="btn btn-primary accept_form" type="submit" value="Freeze the account">
+                                <input class="btn btn-primary w-100 accept_form" type="submit" value="Freeze the account">
                             </form>
                         </div>
-
+                        <a th:href="${'/account/history/' + account.accountId}" class="btn btn-success w-100">Transaction history</a>
                     </div>
                 </div>
             </div>
@@ -51,7 +51,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.7/jquery.inputmask.min.js"></script>
 <script type="text/javascript" th:src="@{/js/cardInfo.js}"></script>
-<script></script>
 
 </body>
 </html>

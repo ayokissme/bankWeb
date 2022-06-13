@@ -37,4 +37,8 @@ public class TransactionDto {
         this.recipientAccount = recipientAccount;
         this.senderAccount = senderAccount;
     }
+
+    public String getMessageFormat() {
+        return this.message.length() == 0 ? "<empty>" : this.message;
+    }
 }
